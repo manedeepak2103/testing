@@ -3,7 +3,7 @@ const app = express();
 
 const router = express.Router();
 
-// Handle incoming POST requests to the '/webhook' endpoint
+// Handle incoming POST requests to the '/api/webhook' endpoint
 router.post('/webhook', (req, res) => {
   // Process the webhook payload
   // Add your webhook handling logic here
@@ -15,6 +15,14 @@ router.post('/webhook', (req, res) => {
 
 // Mount the router on the '/api' base URL
 app.use('/api', router);
+
+// Serve static files from the 'public' directory (optional)
+app.use(express.static('public'));
+
+// Handle all other requests
+app.get('*', (req, res) => {
+  res.status(404).json({ error: 'Not Found' });
+});
 
 // Start the server
 const port = process.env.PORT || 3000;
